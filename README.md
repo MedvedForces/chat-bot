@@ -1,2 +1,3 @@
-# chat-bot
-This is project for university course
+# Wordle
+Бот-игра Wordle: угадай загаданное слово из 5 букв
+за 6 попыток. После каждой попытки бот подсвечивает буквы
