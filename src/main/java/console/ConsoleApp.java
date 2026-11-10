@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.io.Console;
 
 public class ConsoleApp {
     public static void main(String[] args) throws IOException {
@@ -17,10 +18,12 @@ public class ConsoleApp {
         System.out.println(botManager.getGeneralWelcomeMessage());
         System.out.println("--------------------------------------------------");
 
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(System.in, StandardCharsets.UTF_8));
+        Console console = System.console();
+        BufferedReader reader = console == null
+                ? new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))
+                : null;
         String input;
-        while ((input = reader.readLine()) != null) {
+        while ((input = console != null ? console.readLine() : reader.readLine()) != null) {
             if (input.equalsIgnoreCase("\\exit") || input.equalsIgnoreCase("exit")) {
                 System.out.println("До свидания!");
                 break;
