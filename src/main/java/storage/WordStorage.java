@@ -2,6 +2,7 @@ package storage;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Locale;
 
 public class WordStorage {
     private final List<String> dictionary = List.of(
@@ -21,6 +22,6 @@ public class WordStorage {
         if (word == null) {
             return false;
         }
-        return dictionary.contains(word.trim().toLowerCase());
+        return dictionary.contains(word.trim().toLowerCase(Locale.ROOT));
     }
 }

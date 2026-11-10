@@ -1,8 +1,6 @@
 package console;
 
 import game.BotManager;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 import storage.WordStorage;
 
 public class ConsoleApp {
@@ -14,18 +12,20 @@ public class ConsoleApp {
         System.out.println(botManager.getGeneralWelcomeMessage());
         System.out.println("--------------------------------------------------");
 
-        try (Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8)) {
-            while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
+        if (System.console() == null) {
+            System.err.println("Запустите программу в обычном терминале VS Code, чтобы вводить слова.");
+            return;
+        }
+        String input;
+        while ((input = System.console().readLine()) != null) {
                 
-                if (input.equalsIgnoreCase("\\exit") || input.equalsIgnoreCase("exit")) {
-                    System.out.println("До свидания!");
-                    break;
-                }
-
-                String response = botManager.handleMessage(consoleUserId, input);
-                System.out.println(response);
+            if (input.equalsIgnoreCase("\\exit") || input.equalsIgnoreCase("exit")) {
+                System.out.println("До свидания!");
+                break;
             }
+
+            String response = botManager.handleMessage(consoleUserId, input);
+            System.out.println(response);
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Wordle Console",
+      "request": "launch",
+      "mainClass": "console.ConsoleApp",
+      "vmArgs": "-Dfile.encoding=UTF-8"
+    }
+  ]
+}

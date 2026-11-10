@@ -1,6 +1,7 @@
 package game;
 
 import storage.WordStorage;
+import java.util.Locale;
 
 public class WordleGameSession {
     private final WordStorage wordStorage;
@@ -36,7 +37,7 @@ public class WordleGameSession {
         if (input == null) {
             return "Пожалуйста, введите слово.";
         }
-        String trimmed = input.trim().toLowerCase();
+        String trimmed = input.trim().toLowerCase(Locale.ROOT);
 
         if (trimmed.equals("\\help")) {
             return getWelcomeMessage();
@@ -53,6 +54,10 @@ public class WordleGameSession {
 
         if (trimmed.length() != 5) {
             return "Слово должно состоять ровно из 5 букв! Попробуй еще раз:";
+        }
+
+        if (!wordStorage.isValidWord(trimmed)) {
+            return "Я не знаю такого слова. Попробуй слово из моего словаря:";
         }
 
         attemptsLeft--;
@@ -72,13 +77,20 @@ public class WordleGameSession {
 
     private String evaluateGuess(String guess, String secret) {
         StringBuilder sb = new StringBuilder();
+        int[] remaining = new int[Character.MAX_VALUE + 1];
+        for (int i = 0; i < secret.length(); i++) {
+            if (guess.charAt(i) != secret.charAt(i)) {
+                remaining[secret.charAt(i)]++;
+            }
+        }
         for (int i = 0; i < 5; i++) {
             char gChar = guess.charAt(i);
             char sChar = secret.charAt(i);
             if (gChar == sChar) {
                 sb.append("[").append(gChar).append("] ");
-            } else if (secret.indexOf(gChar) >= 0) {
+            } else if (remaining[gChar] > 0) {
                 sb.append("(").append(gChar).append(") ");
+                remaining[gChar]--;
             } else {
                 sb.append("_ ");
             }
